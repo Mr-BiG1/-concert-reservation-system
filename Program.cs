@@ -108,17 +108,24 @@ namespace A4GeorgeDSA4AntonyA
 			}
         }
         // Function is for creating room for the users in the array
+        // FormatException
         static void Adding_User_Reservation()
         {
-            for (int i = 0; i < seats.GetLength(0); i++) 
+           try 
             {
-                for(int j = 0; j < seats.GetLength(1); j++)
+                for (int i = 0; i < seats.GetLength(0); i++)
                 {
-                    Console.Write($"{seats[i, j]} ");
+                    for (int j = 0; j < seats.GetLength(1); j++)
+                    {
+                        Console.Write($"{seats[i, j]} ");
+                    }
+                    Console.WriteLine();
                 }
-                Console.WriteLine();
+                Console.ReadKey();
+            }catch (FormatException Error) 
+            {
+                Console.WriteLine(Error .Message);
             }
-            Console.ReadKey();
         }
         // option 4 
         // Displaying the all values in the array
