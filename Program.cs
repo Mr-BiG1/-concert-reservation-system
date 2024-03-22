@@ -97,8 +97,12 @@ namespace A4GeorgeDSA4AntonyA
 				} while (restart_Program);
                 {
                     // Ending message with sleep mode for 550s
+                    for (int i = 0; i <= 5; i++)
+                    {
+                        Thread.Sleep(550);
+                        Console.Write(".");
+                    }
                     Console.WriteLine("Thamk You ");
-                    Thread.Sleep(550);
                 }	
 
 			}
@@ -127,20 +131,31 @@ namespace A4GeorgeDSA4AntonyA
                 Console.WriteLine(Error .Message);
             }
         }
+
         // option 4 
         // Displaying the all values in the array
         static void Chart_Disply()
         {
-            for (int i = 0; i < seats.GetLength(0); i++)
+            try
             {
-                for (int j = 0; j < seats.GetLength(1); j++)
+                // for displaying all the seats .
+                for (int i = 0; i < seats.GetLength(0); i++)
                 {
-                    Console.Write($"{seats[i, j]} ");
+                    for (int j = 0; j < seats.GetLength(1); j++)
+                    {
+                        Console.Write($"{seats[i, j]} ");
+                    }
+                    Console.WriteLine();
                 }
-                Console.WriteLine();
+                Console.WriteLine ();
+                Console.WriteLine("Enter the Name");
+                Console.WriteLine("Press Enter to go back");
+                Console.ReadKey();
             }
-            Console.WriteLine("Press Enter to go back");
-            Console.ReadKey();
+            catch (FormatException Error)
+            {
+                Console.WriteLine (Error .Message);
+            }
         }
     }
 }
