@@ -148,7 +148,6 @@ namespace A4GeorgeDSA4AntonyA
                     Console.WriteLine();
                 }
                 Console.WriteLine ();
-                Console.WriteLine("Enter the Name");
                 Console.WriteLine("Press Enter to go back");
                 Console.ReadKey();
             }
