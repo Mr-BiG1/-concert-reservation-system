@@ -54,6 +54,7 @@ namespace A4GeorgeDSA4AntonyA
                 do
 				{
                     // Main Menu Option 
+                    Console.Clear();
 					Console.WriteLine("===========================================");
                     Console.WriteLine();
                     Console.WriteLine("Waterloo concert hall reservation system");
@@ -78,14 +79,13 @@ namespace A4GeorgeDSA4AntonyA
                     switch (user_Selected_Option)
                     {
                         case 1:
-                            Console.WriteLine("Option1");
                             Adding_User_Reservation();
                             break;
                         case 2:
-                            Console.WriteLine("Option2");
+                            Edit_Existing_Reservation();
                             break;
                         case 3:
-                            Console.WriteLine("Option3");
+                            user_Existing_Reservation_Cancel();
                             break;
                         case 4:
                             Chart_Disply();
@@ -93,16 +93,22 @@ namespace A4GeorgeDSA4AntonyA
                         case 5:
                             restart_Program = false;
                             break;
+                         default:
+                            Console.WriteLine("Enter a valied option, press any key to go back.");
+                            Console.ReadKey();
+                            break;
                     }
 				} while (restart_Program);
                 {
                     // Ending message with sleep mode for 550s
+                    Console.Write("Loading");
                     for (int i = 0; i <= 5; i++)
                     {
                         Thread.Sleep(550);
                         Console.Write(".");
                     }
                     Console.WriteLine("Thamk You ");
+                    Thread.Sleep(550);
                 }	
 
 			}
@@ -113,23 +119,117 @@ namespace A4GeorgeDSA4AntonyA
         }
         // Function is for creating room for the users in the array
         // FormatException
+        // option
         static void Adding_User_Reservation()
         {
+            String customer_Name;
+            int preferred_Row;
+            int preferred_Column;
+            String user_desition;
            try 
             {
-                for (int i = 0; i < seats.GetLength(0); i++)
+                // to disply all the chart.
+                Chart_Disply();
+                Console.Write("Enter the name:");
+                customer_Name = Console.ReadLine();
+                Console.WriteLine();
+                Console.Write("Enter preferred row No:");
+                preferred_Row = Convert.ToInt32(Console.ReadLine());
+                Console.WriteLine();
+                Console.Write("Enter preferred column No:");
+                preferred_Column = Convert.ToInt32(Console.ReadLine());
+                Console.WriteLine();
+
+                // conformin the values are ok for the user and is that seat is available.
+                Console.Clear();
+                Console.WriteLine($"You entered");
+                Console.WriteLine();
+                Console.WriteLine($"Row No: {preferred_Row}");
+                Console.WriteLine();
+                Console.WriteLine($"Column No: {preferred_Column}");
+                Console.WriteLine();
+                Console.Write("To confirm enter yes to continue with OR to change enter no: ");
+                user_desition = Console.ReadLine();
+                user_desition = user_desition.ToLower();
+                if (user_desition == "yes")
                 {
-                    for (int j = 0; j < seats.GetLength(1); j++)
+                    if (preferred_Row <= seats.GetLength(0) && preferred_Column <= seats.GetLength(1))
                     {
-                        Console.Write($"{seats[i, j]} ");
+                        seats[preferred_Row -1, preferred_Column - 1] = customer_Name;
+                        Console.WriteLine();
+                        Console.WriteLine(" Seat reserved successfully! ");
+                        // Ending message with sleep mode for 450s
+                        Console.Write("Loading");
+                        for (int i = 0; i <= 5; i++)
+                        {
+                            Thread.Sleep(450);
+                            Console.Write(".");
+                        }
                     }
+                    else
+                    {
+                        Console.WriteLine("Seat reserved unsuccessfully!");
+                    }
+                }
+                else 
+                {
+                    // again entering information.
+                    Console.WriteLine("Enter again ") ;
+                    Console.WriteLine();
+                    Chart_Disply();
+                    Console.Write("Enter the name:");
+                    customer_Name = Console.ReadLine();
+                    Console.WriteLine();
+                    Console.Write("Enter preferred row No:");
+                    preferred_Row = Convert.ToInt32(Console.ReadLine());
+                    Console.WriteLine();
+                    Console.Write("Enter preferred column No:");
+                    preferred_Column = Convert.ToInt32(Console.ReadLine());
                     Console.WriteLine();
                 }
-                Console.ReadKey();
             }catch (FormatException Error) 
             {
                 Console.WriteLine(Error .Message);
             }
+
+        }
+        //option2 
+        //Edit Existing Reservation
+        static void Edit_Existing_Reservation()
+        {
+            int reservation_Row_id ;
+            int reservation_Column_id ;
+            try
+            {
+                // displaying all seats && getting the data 
+                Chart_Disply();
+                Console.Clear();
+                Console.WriteLine();
+                Console.WriteLine("Enter the row No: ");
+                reservation_Row_id = Convert.ToInt32(Console.ReadLine());
+                Console.WriteLine();
+                Console.WriteLine("Enter the column No: ");
+                reservation_Column_id = Convert.ToInt32(Console.ReadLine());
+                Console.WriteLine();
+
+                // checing the entered id are valied in the list.
+                string seat_reservation_value = seats[reservation_Row_id, reservation_Column_id];
+                Console.WriteLine(seats[reservation_Row_id, reservation_Column_id]);
+            }
+            catch (FormatException)
+            {
+                Console.WriteLine("Invalid input format. Please enter numeric values.");
+            }
+            catch (Exception Error)
+            {
+                Console.WriteLine($"An error occurred: {Error.Message}");
+            }
+        }
+        //option3
+        //Cancel Existing Reservation
+        static void user_Existing_Reservation_Cancel()
+        {
+            Console.WriteLine("Function is empty");
         }
 
         // option 4 
@@ -138,9 +238,12 @@ namespace A4GeorgeDSA4AntonyA
         {
             try
             {
+                Console.Clear ();
+                Console.WriteLine();
                 // for displaying all the seats .
                 for (int i = 0; i < seats.GetLength(0); i++)
                 {
+                    Console.Write($"Row {i + 1}: ");
                     for (int j = 0; j < seats.GetLength(1); j++)
                     {
                         Console.Write($"{seats[i, j]} ");
@@ -148,12 +251,37 @@ namespace A4GeorgeDSA4AntonyA
                     Console.WriteLine();
                 }
                 Console.WriteLine ();
-                Console.WriteLine("Press Enter to go back");
+                Console.WriteLine("Press any key to go back main menu.");
                 Console.ReadKey();
             }
             catch (FormatException Error)
             {
                 Console.WriteLine (Error .Message);
+            }
+        }
+
+
+        // function is for display chart/ seats for other function.
+        static void Dispaly_Function_Seat()
+        {
+            try
+            {
+                Console.Clear();
+                Console.WriteLine();
+                for (int i = 0; i < seats.GetLength(0); i++)
+                {
+                    Console.Write($"Row {i + 1}: ");
+                    for (int j = 0; j < seats.GetLength(1); j++)
+                    {
+                        Console.Write($"{seats[i, j]} ");
+                    }
+                    Console.WriteLine();
+                }
+                Console.WriteLine();
+            }
+            catch (FormatException Error)
+            {
+                Console.WriteLine(Error.Message);
             }
         }
     }
