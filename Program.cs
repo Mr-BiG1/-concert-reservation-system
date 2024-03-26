@@ -112,14 +112,18 @@ namespace A4GeorgeDSA4AntonyA
                 }	
 
 			}
-			catch (Exception Error)
-			{
-                Console.WriteLine(Error .Message);
-			}
+            catch (FormatException)
+            {
+                Console.WriteLine("Invalid input format. Please enter numeric values.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred: {ex.Message}");
+            }
         }
         // Function is for creating room for the users in the array
         // FormatException
-        // option
+        // option 1
         static void Adding_User_Reservation()
         {
             String customer_Name;
@@ -129,9 +133,10 @@ namespace A4GeorgeDSA4AntonyA
            try 
             {
                 // to disply all the chart.
-                Chart_Disply();
+                Dispaly_Function_Seat();
                 Console.Write("Enter the name:");
                 customer_Name = Console.ReadLine();
+                customer_Name = customer_Name.ToLower();
                 Console.WriteLine();
                 Console.Write("Enter preferred row No:");
                 preferred_Row = Convert.ToInt32(Console.ReadLine());
@@ -199,11 +204,12 @@ namespace A4GeorgeDSA4AntonyA
         {
             int reservation_Row_id ;
             int reservation_Column_id ;
+            string customerName = "name";
             try
             {
-                // displaying all seats && getting the data 
-                Chart_Disply();
+                // displaying all seats && getting the data.
                 Console.Clear();
+                Dispaly_Function_Seat();
                 Console.WriteLine();
                 Console.WriteLine("Enter the row No: ");
                 reservation_Row_id = Convert.ToInt32(Console.ReadLine());
@@ -214,7 +220,23 @@ namespace A4GeorgeDSA4AntonyA
 
                 // checing the entered id are valied in the list.
                 string seat_reservation_value = seats[reservation_Row_id, reservation_Column_id];
-                Console.WriteLine(seats[reservation_Row_id, reservation_Column_id]);
+                if ( reservation_Row_id >= 0 && reservation_Row_id < seats.GetLength(0) &&
+                     reservation_Column_id >= 0 && reservation_Column_id < seats.GetLength(1))
+                {
+                    if (seats[reservation_Row_id, reservation_Column_id] != "")
+                    {
+                        Console.WriteLine($"The seat is already reserved by {seats[reservation_Row_id, reservation_Column_id]}.");
+                        Console.Write("Enter a new name: ");
+                        customerName = Console.ReadLine();
+
+                    }
+                    seats[reservation_Row_id, reservation_Column_id] = customerName;
+                    Console.WriteLine("Seat reserved successfully!");
+                }
+                else
+                {
+                    Console.WriteLine("Invalid row or column number. Please try again.");
+                }
             }
             catch (FormatException)
             {
@@ -229,7 +251,44 @@ namespace A4GeorgeDSA4AntonyA
         //Cancel Existing Reservation
         static void user_Existing_Reservation_Cancel()
         {
-            Console.WriteLine("Function is empty");
+            string user_Name;
+            int reservation_Row_id;
+            int reservation_Column_id;
+            try
+            {
+                // clearing the screan and display the chart.
+                Console.Clear();
+                Dispaly_Function_Seat();
+                Console.WriteLine();
+                Console.WriteLine("Enter the row No: ");
+                reservation_Row_id = Convert.ToInt32(Console.ReadLine());
+                Console.WriteLine();
+                Console.WriteLine("Enter the column No: ");
+                reservation_Column_id = Convert.ToInt32(Console.ReadLine());
+                Console.WriteLine();
+                Console.WriteLine("Enter the name used on booking");
+                user_Name = Console.ReadLine();
+                user_Name = user_Name.ToLower();
+
+                // checking the user entred data are true.
+                if (seats[reservation_Row_id,reservation_Column_id].Contains(user_Name))
+                {
+                    Console.WriteLine("Name Found");
+                }
+                else
+                {
+                    Console.WriteLine("Name not found");
+                }
+                Console.ReadKey();
+            }
+            catch (FormatException)
+            {
+                Console.WriteLine("Invalid input format. Please enter numeric values.");
+            }
+            catch (Exception Error)
+            {
+                Console.WriteLine($"An error occurred: {Error.Message}");
+            }
         }
 
         // option 4 
