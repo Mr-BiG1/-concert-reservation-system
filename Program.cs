@@ -95,7 +95,7 @@ namespace A4GeorgeDSA4AntonyA
                             restart_Program = false;
                             break;
                          default:
-                            Console.WriteLine("Enter a valied option, press any key to go back.");
+                            Console.WriteLine("Enter a valid option, press any key to go back.");
                             Console.ReadKey();
                             break;
                     }
@@ -116,7 +116,7 @@ namespace A4GeorgeDSA4AntonyA
 			}
             catch (FormatException)
             {
-                Console.WriteLine("Invalid input format. Please enter numeric values.");
+                Console.WriteLine("Invalid input format. Please Enter numeric values.");
             }
             catch (Exception ex)
             {
@@ -128,15 +128,13 @@ namespace A4GeorgeDSA4AntonyA
         // option 1
         static void Adding_User_Reservation()
         {
-            String customer_Name;
-            int preferred_Row;
-            int preferred_Column;
-            String user_desition;
+            String customer_Name, user_desition , type_Identifier;
+            int preferred_Row,preferred_Column;
            try 
             {
                 // to disply all the chart.
                 Dispaly_Function_Seat();
-                Console.Write("Enter the name:");
+                Console.Write("Enter the Name:");
                 customer_Name = Console.ReadLine();
                 customer_Name = customer_Name.ToLower();
                 Console.WriteLine();
@@ -145,55 +143,59 @@ namespace A4GeorgeDSA4AntonyA
                 Console.WriteLine();
                 Console.Write("Enter preferred column No:");
                 preferred_Column = Convert.ToInt32(Console.ReadLine());
+                type_Identifier = seats[preferred_Row - 1, preferred_Column - 1];
                 Console.WriteLine();
 
-                // conformin the values are ok for the user and is that seat is available.
-                Console.Clear();
-                Console.WriteLine($"You entered");
-                Console.WriteLine();
-                Console.WriteLine($"Row No: {preferred_Row}");
-                Console.WriteLine();
-                Console.WriteLine($"Column No: {preferred_Column}");
-                Console.WriteLine();
-                Console.Write("To confirm enter yes to continue with OR to change enter no: ");
-                user_desition = Console.ReadLine();
-                user_desition = user_desition.ToLower();
-                if (user_desition == "yes")
+                if (char.IsDigit(type_Identifier[0]))
                 {
-                    if (preferred_Row <= seats.GetLength(0) && preferred_Column <= seats.GetLength(1))
+                    // conformin the values are ok for the user and is that seat is available.
+                    Console.Clear();
+                    Console.WriteLine($"You entered");
+                    Console.WriteLine();
+                    Console.WriteLine($"Row No: {preferred_Row}");
+                    Console.WriteLine();
+                    Console.WriteLine($"Column No: {preferred_Column}");
+                    Console.WriteLine();
+                    Console.Write("To confirm enter yes to continue with OR to change enter no: ");
+                    user_desition = Console.ReadLine();
+                    user_desition = user_desition.ToLower();
+                    if (user_desition == "yes")
                     {
-                        seats[preferred_Row -1, preferred_Column - 1] = customer_Name;
-                        Font_Color_True(" Seat reserved successfully! ");
-                        // Ending message with sleep mode for 450s
-                        Console.Write("Loading");
-                        for (int i = 0; i <= 5; i++)
+                        if (preferred_Row <= seats.GetLength(0) && preferred_Column <= seats.GetLength(1))
                         {
-                            Thread.Sleep(450);
-                            Console.Write(".");
+                            seats[preferred_Row - 1, preferred_Column - 1] = customer_Name;
+                            Font_Color_True(" Seat reserved successfully! ");
+                            Loading_Bar();
+                        }
+                        else
+                        {
+                            Font_Color_False("No reservation found");
                         }
                     }
                     else
                     {
-                        Font_Color_False("No reservation found");
+                        // again entering information.
+                        Console.WriteLine("Enter again ");
+                        Console.WriteLine();
+                        Chart_Disply();
+                        Console.Write("Enter the name:");
+                        customer_Name = Console.ReadLine();
+                        Console.WriteLine();
+                        Console.Write("Enter preferred row No:");
+                        preferred_Row = Convert.ToInt32(Console.ReadLine());
+                        Console.WriteLine();
+                        Console.Write("Enter preferred column No:");
+                        preferred_Column = Convert.ToInt32(Console.ReadLine());
+                        Console.WriteLine();
                     }
-                }
-                else 
+
+                } else
                 {
-                    // again entering information.
-                    Console.WriteLine("Enter again ") ;
-                    Console.WriteLine();
-                    Chart_Disply();
-                    Console.Write("Enter the name:");
-                    customer_Name = Console.ReadLine();
-                    Console.WriteLine();
-                    Console.Write("Enter preferred row No:");
-                    preferred_Row = Convert.ToInt32(Console.ReadLine());
-                    Console.WriteLine();
-                    Console.Write("Enter preferred column No:");
-                    preferred_Column = Convert.ToInt32(Console.ReadLine());
-                    Console.WriteLine();
+                    Font_Color_False(" The entred seat is booked ");
+                    Loading_Bar();
                 }
-            }catch (FormatException Error) 
+            }
+            catch (FormatException Error) 
             {
                 Console.WriteLine(Error .Message);
             }
@@ -256,6 +258,7 @@ namespace A4GeorgeDSA4AntonyA
             int reservation_Row_id;
             int reservation_Column_id;
             string user_Cancelation_Conformation;
+           
             try
             {
                 // clearing the screan and display the chart.
@@ -281,7 +284,7 @@ namespace A4GeorgeDSA4AntonyA
                     user_Cancelation_Conformation = user_Cancelation_Conformation.ToLower();
                     if (user_Cancelation_Conformation != "no")
                     {
-                        seats[reservation_Row_id - 1, reservation_Column_id - 1] = "Canceld";
+                        seats[reservation_Row_id - 1, reservation_Column_id - 1] = "Canceld ";
                         Console.WriteLine();
                         //Console.ForegroundColor = ConsoleColor.Green;
                         Font_Color_True(" Seat reserved successfully!");
@@ -362,7 +365,12 @@ namespace A4GeorgeDSA4AntonyA
                 Console.WriteLine(Error.Message);
             }
         }
-
+        // styling starts 
+        static void Loading_Bar()
+        {
+            // Ending message with sleep mode for 450s
+            Loading_Bar();
+        }
         // background color chnaging function
         static void Font_Color_True(string true_Value)
         {
@@ -371,7 +379,7 @@ namespace A4GeorgeDSA4AntonyA
            Console.WriteLine(true_Value);
            Console.ForegroundColor= ConsoleColor.Black;
             Console.WriteLine();
-            Console.WriteLine("Press any key to go back main menu.");
+            Console.Write("Press any key to go back main menu.");
             Console.ReadKey();
         }
         
@@ -383,7 +391,7 @@ namespace A4GeorgeDSA4AntonyA
             Console.WriteLine(false_Value);
             Console.ForegroundColor= ConsoleColor.Black;
             Console.WriteLine();
-            Console.WriteLine("Press any key to go back main menu.");
+            Console.Write("Press any key to go back main menu.");
             Console.ReadKey();
         }
     }
