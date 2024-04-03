@@ -70,7 +70,6 @@ namespace A4GeorgeDSA4AntonyA
                     Console.WriteLine();
                     Console.WriteLine("5. Exit");
 					Console.WriteLine();
-                    Console.WriteLine(seats.Length);
                     Console.WriteLine("===========================================");
                     Console.WriteLine();
                     Console.Write("Enter an option: ");
