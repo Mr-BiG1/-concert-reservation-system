@@ -1,8 +1,5 @@
 ﻿/*
 * Program.cs
-* Assignment 4 a concert reservation system.
-* Revision History:
-* Darsan, Albin: March 20, 2024: Created
 * In this project, all gaps (spaces) are intentionally used to enhance readability
 * between various elements such as contents, text, and output. This consistent
 * formatting practice aims to make the code more organized and easy to understand.
